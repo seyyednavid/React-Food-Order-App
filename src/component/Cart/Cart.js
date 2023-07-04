@@ -4,9 +4,12 @@ import CartItem from "./CartItem";
 import Modal from "../UI/Modal";
 import classes from "./Cart.module.css";
 import Checkout from "./Checkout.js";
+import axios from "axios";
 
 const Cart = (props) => {
   const [isCheckout, setIsCheckout] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [didSubmit, setDidSubmit] = useState(false);
 
   const cartCtx = useContext(CartContext);
   const totalAmount = `$${cartCtx.totalAmount.toFixed()}`;
@@ -51,6 +54,22 @@ const Cart = (props) => {
     </div>
   );
 
+  const submitOrderHandler = async (userData) => {
+    try {
+      setIsSubmitting(true);
+      await axios.post(
+        "https://food-order-app-f77de-default-rtdb.firebaseio.com/orders.json",
+        {
+          user: userData,
+          orderItems: cartCtx.items,
+        }
+      );
+      setIsCheckout(false);
+      setIsSubmitting(false);
+      setDidSubmit(true);
+    } catch (error) {}
+  };
+
   return (
     <Modal onClick={props.onHideCard}>
       {cartItems}
@@ -58,7 +77,9 @@ const Cart = (props) => {
         <span>Total Amount</span>
         <span>{totalAmount}</span>
       </div>
-      {isCheckout && <Checkout onCancel={props.onHideCard} />}
+      {isCheckout && (
+        <Checkout onConfirm={submitOrderHandler} onCancel={props.onHideCard} />
+      )}
       {!isCheckout && modalActions}
     </Modal>
   );
