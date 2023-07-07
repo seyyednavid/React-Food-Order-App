@@ -12,7 +12,7 @@ const Cart = (props) => {
   const [didSubmit, setDidSubmit] = useState(false);
 
   const cartCtx = useContext(CartContext);
-  const totalAmount = `$${cartCtx.totalAmount.toFixed()}`;
+  const totalAmount = `$${cartCtx.totalAmount.toFixed(2)}`;
   const hasItem = cartCtx.items.length > 0;
 
   const cartItemRemoveHandler = (id) => {
@@ -64,11 +64,10 @@ const Cart = (props) => {
           orderItems: cartCtx.items,
         }
       );
-      setIsCheckout(false);
       setIsSubmitting(false);
       setDidSubmit(true);
+      cartCtx.clearCart();
     } catch (error) {}
-    cartCtx.clearCart();
   };
 
   const cartModalContent = (
