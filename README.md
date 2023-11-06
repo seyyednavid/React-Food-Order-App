@@ -11,3 +11,8 @@ Design a food ordering app that enables users to select their desired dishes, ad
 - useContext: Streamlined data sharing between components.
 
 💡I also sent http requests using fetch, worked with forms and inputs and fetched data from the back-end using Firebase.
+
+# Demo:
+
+https://github.com/seyyednavid/React-Food-Order-App/assets/100324062/c1608d1d-78d1-4b09-b144-0b0f96252de9
+
